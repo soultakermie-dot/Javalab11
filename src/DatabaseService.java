@@ -2,28 +2,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Клас для виконання запитів до бази даних.
- * Містить методи для роботи зі співробітниками, відділами та завданнями.
- */
+
 public class DatabaseService {
     private Connection connection;
     
-    /**
-     * Конструктор, який приймає підключення до БД.
-     * 
-     * @param connection підключення до бази даних
-     */
+
     public DatabaseService(Connection connection) {
         this.connection = connection;
     }
     
-    /**
-     * Отримує список всіх співробітників.
-     * 
-     * @return список співробітників у вигляді рядків
-     * @throws SQLException якщо виникла помилка при виконанні запиту
-     */
+
     public List<String> getAllEmployees() throws SQLException {
         List<String> employees = new ArrayList<>();
         String query = "SELECT Номер_співробітника, Прізвище, Ім_я, Посада, Номер_відділу " +
@@ -49,12 +37,7 @@ public class DatabaseService {
         return employees;
     }
     
-    /**
-     * Отримує список всіх завдань.
-     * 
-     * @return список завдань у вигляді рядків
-     * @throws SQLException якщо виникла помилка при виконанні запиту
-     */
+
     public List<String> getAllTasks() throws SQLException {
         List<String> tasks = new ArrayList<>();
         String query = "SELECT з.Номер_завдання, з.Опис_завдання, з.Номер_співробітника, " +
@@ -84,13 +67,7 @@ public class DatabaseService {
         return tasks;
     }
     
-    /**
-     * Отримує список співробітників зазначеного відділу.
-     * 
-     * @param departmentNumber номер відділу
-     * @return список співробітників відділу у вигляді рядків
-     * @throws SQLException якщо виникла помилка при виконанні запиту
-     */
+
     public List<String> getEmployeesByDepartment(int departmentNumber) throws SQLException {
         List<String> employees = new ArrayList<>();
         String query = "SELECT Номер_співробітника, Прізвище, Ім'я, Посада " +
@@ -118,16 +95,9 @@ public class DatabaseService {
         return employees;
     }
     
-    /**
-     * Додає завдання для зазначеного співробітника.
-     * 
-     * @param employeeNumber номер співробітника
-     * @param taskDescription опис завдання
-     * @return true якщо завдання успішно додано, false інакше
-     * @throws SQLException якщо виникла помилка при виконанні запиту
-     */
+
     public boolean addTaskForEmployee(int employeeNumber, String taskDescription) throws SQLException {
-        // Перевірка існування співробітника
+
         if (!employeeExists(employeeNumber)) {
             System.out.println("Помилка: Співробітник з номером " + employeeNumber + " не знайдено!");
             return false;
@@ -148,13 +118,7 @@ public class DatabaseService {
         return false;
     }
     
-    /**
-     * Отримує список завдань для зазначеного співробітника.
-     * 
-     * @param employeeNumber номер співробітника
-     * @return список завдань співробітника у вигляді рядків
-     * @throws SQLException якщо виникла помилка при виконанні запиту
-     */
+
     public List<String> getTasksForEmployee(int employeeNumber) throws SQLException {
         List<String> tasks = new ArrayList<>();
         String query = "SELECT Номер_завдання, Опис_завдання " +
@@ -178,14 +142,7 @@ public class DatabaseService {
         return tasks;
     }
     
-    /**
-     * Видаляє співробітника з бази даних.
-     * Завдання співробітника також будуть видалені (CASCADE).
-     * 
-     * @param employeeNumber номер співробітника для видалення
-     * @return true якщо співробітник успішно видалено, false інакше
-     * @throws SQLException якщо виникла помилка при виконанні запиту
-     */
+
     public boolean deleteEmployee(int employeeNumber) throws SQLException {
         // Перевірка існування співробітника
         if (!employeeExists(employeeNumber)) {
@@ -207,13 +164,7 @@ public class DatabaseService {
         return false;
     }
     
-    /**
-     * Перевіряє існування співробітника в базі даних.
-     * 
-     * @param employeeNumber номер співробітника
-     * @return true якщо співробітник існує, false інакше
-     * @throws SQLException якщо виникла помилка при виконанні запиту
-     */
+
     private boolean employeeExists(int employeeNumber) throws SQLException {
         String query = "SELECT COUNT(*) FROM Співробітники WHERE Номер_співробітника = ?";
         
@@ -229,13 +180,7 @@ public class DatabaseService {
         return false;
     }
     
-    /**
-     * Отримує інформацію про відділ за його номером.
-     * 
-     * @param departmentNumber номер відділу
-     * @return рядок з інформацією про відділ або null
-     * @throws SQLException якщо виникла помилка при виконанні запиту
-     */
+
     public String getDepartmentInfo(int departmentNumber) throws SQLException {
         String query = "SELECT Назва, Телефон FROM Відділи WHERE Номер_відділу = ?";
         
